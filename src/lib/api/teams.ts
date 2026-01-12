@@ -6,6 +6,7 @@ export interface GetTeamsParams {
   season?: number
   per_page?: number
   page?: number
+  _embed?: boolean
 }
 
 /**
