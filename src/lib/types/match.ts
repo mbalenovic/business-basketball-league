@@ -16,8 +16,17 @@ export interface Match {
   seasons: SeasonId[]
   teams: TeamId[]
   venue?: string
-  status: 'scheduled' | 'live' | 'completed' | 'postponed' | 'cancelled'
-  results?: MatchResult
+  status: 'future' | 'publish' | 'scheduled' | 'live' | 'completed' | 'postponed' | 'cancelled'
+  results?: {
+    [teamId: number]: {
+      points?: string | number
+      one?: string | number
+      two?: string | number
+      three?: string | number
+      four?: string | number
+      ot?: string | number
+    }
+  }
   link?: string
 }
 

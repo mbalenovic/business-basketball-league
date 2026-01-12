@@ -26,6 +26,7 @@ import { Route as UsersUserIdRouteImport } from './routes/users.$userId'
 import { Route as TeamsTeamIdRouteImport } from './routes/teams.$teamId'
 import { Route as PostsPostIdRouteImport } from './routes/posts.$postId'
 import { Route as PlayersPlayerIdRouteImport } from './routes/players.$playerId'
+import { Route as MatchesMatchIdRouteImport } from './routes/matches.$matchId'
 import { Route as ApiUsersRouteImport } from './routes/api/users'
 import { Route as PathlessLayoutNestedLayoutRouteImport } from './routes/_pathlessLayout/_nested-layout'
 import { Route as PostsPostIdDeepRouteImport } from './routes/posts_.$postId.deep'
@@ -117,6 +118,11 @@ const PlayersPlayerIdRoute = PlayersPlayerIdRouteImport.update({
   path: '/$playerId',
   getParentRoute: () => PlayersRoute,
 } as any)
+const MatchesMatchIdRoute = MatchesMatchIdRouteImport.update({
+  id: '/matches/$matchId',
+  path: '/matches/$matchId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiUsersRoute = ApiUsersRouteImport.update({
   id: '/api/users',
   path: '/api/users',
@@ -162,6 +168,7 @@ export interface FileRoutesByFullPath {
   '/teams': typeof TeamsRouteWithChildren
   '/users': typeof UsersRouteWithChildren
   '/api/users': typeof ApiUsersRouteWithChildren
+  '/matches/$matchId': typeof MatchesMatchIdRoute
   '/players/$playerId': typeof PlayersPlayerIdRoute
   '/posts/$postId': typeof PostsPostIdRoute
   '/teams/$teamId': typeof TeamsTeamIdRoute
@@ -183,6 +190,7 @@ export interface FileRoutesByTo {
   '/standings': typeof StandingsRoute
   '/teams': typeof TeamsRouteWithChildren
   '/api/users': typeof ApiUsersRouteWithChildren
+  '/matches/$matchId': typeof MatchesMatchIdRoute
   '/players/$playerId': typeof PlayersPlayerIdRoute
   '/posts/$postId': typeof PostsPostIdRoute
   '/teams/$teamId': typeof TeamsTeamIdRoute
@@ -209,6 +217,7 @@ export interface FileRoutesById {
   '/users': typeof UsersRouteWithChildren
   '/_pathlessLayout/_nested-layout': typeof PathlessLayoutNestedLayoutRouteWithChildren
   '/api/users': typeof ApiUsersRouteWithChildren
+  '/matches/$matchId': typeof MatchesMatchIdRoute
   '/players/$playerId': typeof PlayersPlayerIdRoute
   '/posts/$postId': typeof PostsPostIdRoute
   '/teams/$teamId': typeof TeamsTeamIdRoute
@@ -234,6 +243,7 @@ export interface FileRouteTypes {
     | '/teams'
     | '/users'
     | '/api/users'
+    | '/matches/$matchId'
     | '/players/$playerId'
     | '/posts/$postId'
     | '/teams/$teamId'
@@ -255,6 +265,7 @@ export interface FileRouteTypes {
     | '/standings'
     | '/teams'
     | '/api/users'
+    | '/matches/$matchId'
     | '/players/$playerId'
     | '/posts/$postId'
     | '/teams/$teamId'
@@ -280,6 +291,7 @@ export interface FileRouteTypes {
     | '/users'
     | '/_pathlessLayout/_nested-layout'
     | '/api/users'
+    | '/matches/$matchId'
     | '/players/$playerId'
     | '/posts/$postId'
     | '/teams/$teamId'
@@ -305,6 +317,7 @@ export interface RootRouteChildren {
   TeamsRoute: typeof TeamsRouteWithChildren
   UsersRoute: typeof UsersRouteWithChildren
   ApiUsersRoute: typeof ApiUsersRouteWithChildren
+  MatchesMatchIdRoute: typeof MatchesMatchIdRoute
   PostsPostIdDeepRoute: typeof PostsPostIdDeepRoute
 }
 
@@ -428,6 +441,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/players/$playerId'
       preLoaderRoute: typeof PlayersPlayerIdRouteImport
       parentRoute: typeof PlayersRoute
+    }
+    '/matches/$matchId': {
+      id: '/matches/$matchId'
+      path: '/matches/$matchId'
+      fullPath: '/matches/$matchId'
+      preLoaderRoute: typeof MatchesMatchIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/api/users': {
       id: '/api/users'
@@ -574,6 +594,7 @@ const rootRouteChildren: RootRouteChildren = {
   TeamsRoute: TeamsRouteWithChildren,
   UsersRoute: UsersRouteWithChildren,
   ApiUsersRoute: ApiUsersRouteWithChildren,
+  MatchesMatchIdRoute: MatchesMatchIdRoute,
   PostsPostIdDeepRoute: PostsPostIdDeepRoute,
 }
 export const routeTree = rootRouteImport

@@ -10,6 +10,7 @@ export interface GetEventsParams {
   page?: number
   order?: 'asc' | 'desc'
   orderby?: 'date' | 'title'
+  _embed?: boolean
 }
 
 /**
@@ -23,7 +24,7 @@ export async function getEvents(params?: GetEventsParams): Promise<Match[]> {
  * Get a single event by ID
  */
 export async function getEvent(eventId: number): Promise<Match> {
-  return apiClient.get<Match>(`/events/${eventId}`)
+  return apiClient.get<Match>(`/events/${eventId}`, { _embed: true })
 }
 
 /**
