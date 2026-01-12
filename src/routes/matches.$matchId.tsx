@@ -68,6 +68,12 @@ export const Route = createFileRoute('/matches/$matchId')({
     </div>
   ),
   errorComponent: ({ error }) => <ErrorFallback error={error} />,
+  meta: ({ loaderData }) => [
+    {
+      title: `${loaderData?.match?.title?.rendered || 'Match'} - BBL`,
+      description: `View match details, scores, and statistics for this BBL game.`,
+    },
+  ],
 })
 
 function MatchDetailPage() {

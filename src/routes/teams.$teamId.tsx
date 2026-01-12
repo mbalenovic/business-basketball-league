@@ -70,6 +70,12 @@ export const Route = createFileRoute('/teams/$teamId')({
     </div>
   ),
   errorComponent: ({ error }) => <ErrorFallback error={error} />,
+  meta: ({ loaderData }) => [
+    {
+      title: `${loaderData?.team?.title.rendered || 'Team'} - BBL`,
+      description: `View ${loaderData?.team?.title.rendered || 'team'} roster, statistics, and team information for the BBL 2025/2026 season.`,
+    },
+  ],
 })
 
 function TeamPage() {
