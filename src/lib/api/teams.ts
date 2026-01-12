@@ -19,7 +19,7 @@ export async function getTeams(params?: GetTeamsParams): Promise<Team[]> {
  * Get a single team by ID
  */
 export async function getTeam(teamId: number): Promise<Team> {
-  return apiClient.get<Team>(`/teams/${teamId}`)
+  return apiClient.get<Team>(`/teams/${teamId}`, { _embed: true })
 }
 
 /**

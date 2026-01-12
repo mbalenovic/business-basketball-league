@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Link } from '@tanstack/react-router'
 import type { Player } from '~/lib/types/player'
 import { formatNumber } from '~/lib/utils'
 
@@ -123,9 +124,13 @@ export function PlayerLeaderboard({
                   </div>
                 )}
                 <div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white">
+                  <Link
+                    to="/players/$playerId"
+                    params={{ playerId: String(player.id) }}
+                    className="font-semibold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  >
                     {player.name}
-                  </h3>
+                  </Link>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
                     #{player.number}
                   </p>
@@ -270,7 +275,13 @@ export function PlayerLeaderboard({
                         </span>
                       </div>
                     )}
-                    <span>{player.name}</span>
+                    <Link
+                      to="/players/$playerId"
+                      params={{ playerId: String(player.id) }}
+                      className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                    >
+                      {player.name}
+                    </Link>
                   </div>
                 </td>
                 <td className="px-4 py-3 text-center text-sm text-gray-600 dark:text-gray-400">

@@ -23,7 +23,7 @@ export async function getPlayers(
  * Get a single player by ID
  */
 export async function getPlayer(playerId: number): Promise<Player> {
-  return apiClient.get<Player>(`/players/${playerId}`)
+  return apiClient.get<Player>(`/players/${playerId}`, { _embed: true })
 }
 
 /**

@@ -20,6 +20,22 @@ export interface Team {
     secondary: string
   }
   link?: string
+  content?: RenderedText
+  url?: string
+  featured_media?: number
+  _embedded?: {
+    'wp:featuredmedia'?: Array<{
+      id: number
+      source_url: string
+      media_details?: {
+        sizes?: {
+          thumbnail?: { source_url: string }
+          medium?: { source_url: string }
+          full?: { source_url: string }
+        }
+      }
+    }>
+  }
 }
 
 export interface TeamRoster {
