@@ -1,17 +1,68 @@
 import * as React from 'react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { generateMockStandings } from '~/lib/utils/mockData'
-import { formatPercentage } from '~/lib/utils'
+import { getTables } from '~/lib/api/tables'
+import { formatPercentage, parseStandingsTable } from '~/lib/utils'
 import { StreakBadge } from '~/components/features/FormIndicator'
+import { ErrorFallback, StandingsTableSkeleton } from '~/components/ui'
+
+// Simple in-memory cache with 5-minute TTL
+let cachedStandings: any[] | null = null
+let cacheTimestamp: number = 0
+const CACHE_TTL = 5 * 60 * 1000 // 5 minutes
+
+async function fetchStandingsData() {
+  const now = Date.now()
+  if (cachedStandings && now - cacheTimestamp < CACHE_TTL) {
+    console.log('Using cached standings data')
+    return cachedStandings
+  }
+
+  console.log('Fetching fresh standings data from API...')
+  const tables = await getTables()
+
+  if (tables && tables.length > 0) {
+    const parsedStandings = parseStandingsTable(tables[0])
+    cachedStandings = parsedStandings
+    cacheTimestamp = now
+    console.log(`Cached ${parsedStandings.length} teams in standings`)
+    return parsedStandings
+  }
+
+  return []
+}
 
 export const Route = createFileRoute('/')({
+  loader: async () => {
+    const standings = await fetchStandingsData()
+    return { standings }
+  },
   component: Home,
+  pendingComponent: HomeLoading,
+  errorComponent: ({ error }) => <ErrorFallback error={error} />,
 })
 
+function HomeLoading() {
+  return (
+    <div className="space-y-12">
+      <div className="text-center">
+        <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-4">
+          Business Basketball League
+        </h1>
+        <p className="text-xl text-gray-600 dark:text-gray-400">
+          The premier basketball league showcasing the best talent in business
+          basketball
+        </p>
+      </div>
+      <StandingsTableSkeleton rows={5} />
+    </div>
+  )
+}
+
 function Home() {
+  const { standings } = Route.useLoaderData()
   const standingsPreview = React.useMemo(
-    () => generateMockStandings().slice(0, 5),
-    [],
+    () => standings.slice(0, 5),
+    [standings],
   )
 
   return (
