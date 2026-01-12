@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import { useDebounce } from '~/lib/hooks'
-import { NoData, SearchBar, Select, NoSearchResults } from '~/components/ui'
+import { NoData, SearchBar, Select, NoSearchResults, PlayerCardSkeleton, ErrorFallback } from '~/components/ui'
 import { PlayerLeaderboard } from '~/components/features/PlayerLeaderboard'
 import { getPlayers } from '~/lib/api/players'
 import type { Player } from '~/lib/types/player'
@@ -50,7 +50,30 @@ export const Route = createFileRoute('/players')({
     return { players }
   },
   component: PlayersPage,
+  pendingComponent: PlayersPageLoading,
+  errorComponent: ({ error }) => <ErrorFallback error={error} />,
 })
+
+function PlayersPageLoading() {
+  return (
+    <div>
+      <div className="mb-6">
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+          Players
+        </h1>
+        <p className="text-gray-600 dark:text-gray-400 mb-4">
+          2025/2026 Season
+        </p>
+      </div>
+
+      <div className="space-y-3">
+        {Array.from({ length: 10 }).map((_, i) => (
+          <PlayerCardSkeleton key={i} />
+        ))}
+      </div>
+    </div>
+  )
+}
 
 function PlayersPage() {
   // Get pre-fetched data from server-side loader

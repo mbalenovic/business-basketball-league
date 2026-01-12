@@ -5,7 +5,7 @@ import { getTeams } from '~/lib/api/teams'
 import type { Match } from '~/lib/types/match'
 import type { Team } from '~/lib/types/team'
 import { formatDate, formatTime } from '~/lib/utils'
-import { NoData, Select } from '~/components/ui'
+import { NoData, Select, MatchCardSkeleton, ErrorFallback } from '~/components/ui'
 
 // Simple in-memory cache with 5-minute TTL
 let cachedMatches: Match[] | null = null
@@ -44,7 +44,30 @@ export const Route = createFileRoute('/schedule')({
     return data
   },
   component: SchedulePage,
+  pendingComponent: SchedulePageLoading,
+  errorComponent: ({ error }) => <ErrorFallback error={error} />,
 })
+
+function SchedulePageLoading() {
+  return (
+    <div>
+      <div className="mb-6">
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+          Schedule
+        </h1>
+        <p className="text-gray-600 dark:text-gray-400 mb-4">
+          2025/2026 Season
+        </p>
+      </div>
+
+      <div className="space-y-3">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <MatchCardSkeleton key={i} />
+        ))}
+      </div>
+    </div>
+  )
+}
 
 function SchedulePage() {
   const { matches: allMatches, teams: allTeams } = Route.useLoaderData()

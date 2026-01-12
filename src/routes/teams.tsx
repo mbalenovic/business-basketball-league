@@ -2,7 +2,7 @@ import * as React from 'react'
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { getTeams } from '~/lib/api/teams'
 import type { Team } from '~/lib/types/team'
-import { NoData } from '~/components/ui'
+import { NoData, CardSkeleton, ErrorFallback } from '~/components/ui'
 
 // Simple in-memory cache with 5-minute TTL
 let cachedTeams: Team[] | null = null
@@ -37,7 +37,30 @@ export const Route = createFileRoute('/teams')({
     return { teams }
   },
   component: TeamsPage,
+  pendingComponent: TeamsPageLoading,
+  errorComponent: ({ error }) => <ErrorFallback error={error} />,
 })
+
+function TeamsPageLoading() {
+  return (
+    <div>
+      <div className="mb-6">
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+          Teams
+        </h1>
+        <p className="text-gray-600 dark:text-gray-400 mb-4">
+          2025/2026 Season
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {Array.from({ length: 12 }).map((_, i) => (
+          <CardSkeleton key={i} />
+        ))}
+      </div>
+    </div>
+  )
+}
 
 function TeamsPage() {
   const { teams: data } = Route.useLoaderData()

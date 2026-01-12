@@ -5,6 +5,7 @@ import { getTeam } from '~/lib/api/teams'
 import type { Match } from '~/lib/types/match'
 import type { Team } from '~/lib/types/team'
 import { formatDate, formatTime } from '~/lib/utils'
+import { ErrorFallback } from '~/components/ui'
 
 // Simple in-memory cache with 5-minute TTL
 const matchCache = new Map<
@@ -58,6 +59,15 @@ export const Route = createFileRoute('/matches/$matchId')({
     return { match, teams }
   },
   component: MatchDetailPage,
+  pendingComponent: () => (
+    <div className="flex items-center justify-center min-h-[400px]">
+      <div className="relative">
+        <div className="w-12 h-12 rounded-full border-4 border-gray-200 dark:border-gray-700"></div>
+        <div className="w-12 h-12 rounded-full border-4 border-blue-600 dark:border-blue-400 border-t-transparent animate-spin absolute top-0 left-0"></div>
+      </div>
+    </div>
+  ),
+  errorComponent: ({ error }) => <ErrorFallback error={error} />,
 })
 
 function MatchDetailPage() {

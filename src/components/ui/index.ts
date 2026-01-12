@@ -1,4 +1,5 @@
 export * from './ErrorMessage'
+export * from './ErrorFallback'
 export * from './LoadingSkeleton'
 export * from './EmptyState'
 export * from './Select'
