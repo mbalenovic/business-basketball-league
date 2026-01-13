@@ -21,6 +21,7 @@ export function SearchBar({
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
+          aria-hidden="true"
         >
           <path
             strokeLinecap="round"
@@ -31,9 +32,10 @@ export function SearchBar({
         </svg>
       </div>
       <input
-        type="text"
+        type="search"
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        aria-label={placeholder}
         className="touch-target block w-full pl-10 pr-3 py-2 text-base text-gray-900 dark:text-white bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors placeholder-gray-400 dark:placeholder-gray-500"
         placeholder={placeholder}
       />
