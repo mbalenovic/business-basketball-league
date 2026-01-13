@@ -145,6 +145,7 @@ function MatchDetailPage() {
                 src={homeTeam._embedded['wp:featuredmedia'][0].source_url}
                 alt={homeTeam.title.rendered}
                 className="w-24 h-24 md:w-32 md:h-32 object-contain mb-4"
+                loading="lazy"
               />
             ) : (
               <div className="w-24 h-24 md:w-32 md:h-32 rounded-lg bg-gray-300 dark:bg-gray-700 flex items-center justify-center mb-4">
@@ -188,6 +189,7 @@ function MatchDetailPage() {
                 src={awayTeam._embedded['wp:featuredmedia'][0].source_url}
                 alt={awayTeam.title.rendered}
                 className="w-24 h-24 md:w-32 md:h-32 object-contain mb-4"
+                loading="lazy"
               />
             ) : (
               <div className="w-24 h-24 md:w-32 md:h-32 rounded-lg bg-gray-300 dark:bg-gray-700 flex items-center justify-center mb-4">

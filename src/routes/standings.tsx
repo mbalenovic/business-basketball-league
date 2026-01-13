@@ -1,63 +1,60 @@
-import * as React from 'react'
-import { createFileRoute } from '@tanstack/react-router'
-import { useStandings } from '~/lib/hooks'
-import {
-  StandingsTableSkeleton,
-  APIError,
-  NoData,
-} from '~/components/ui'
-import { LeagueTable } from '~/components/features/LeagueTable'
-import { parseStandingsTable } from '~/lib/utils'
+import { createFileRoute } from "@tanstack/react-router";
+import * as React from "react";
+import { LeagueTable } from "~/components/features/LeagueTable";
+import { APIError, NoData, StandingsTableSkeleton } from "~/components/ui";
+import { useStandings } from "~/lib/hooks";
+import { parseStandingsTable } from "~/lib/utils";
 
-export const Route = createFileRoute('/standings')({
+export const Route = createFileRoute("/standings")({
   component: StandingsPage,
   meta: () => [
     {
-      title: 'League Standings - BBL',
-      description: 'View current BBL league standings, team records, win percentages, and playoff positions for the 2025/2026 season.',
+      title: "League Standings - BBL",
+      description:
+        "View current BBL league standings, team records, win percentages, and playoff positions for the 2025/2026 season.",
     },
   ],
-})
+});
 
 function StandingsPage() {
-  const [viewMode, setViewMode] = React.useState<'table' | 'cards'>('table')
-  const [isMobile, setIsMobile] = React.useState(false)
+  const [viewMode, setViewMode] = React.useState<"table" | "cards">("table");
+  const [isMobile, setIsMobile] = React.useState(false);
 
   // Detect mobile screen size
   React.useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
+      setIsMobile(window.innerWidth < 768);
       // Auto-switch to cards on mobile
       if (window.innerWidth < 768) {
-        setViewMode('cards')
+        setViewMode("cards");
       }
-    }
+    };
 
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
-  }, [])
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Fetch latest season standings (no season parameter = latest)
-  const { data, isLoading, error, refetch } = useStandings()
+  const { data, isLoading, error, refetch } = useStandings();
 
   // Parse API data (don't use mock data, show empty state if no data)
   const standingsData = React.useMemo(() => {
     if (data && data.length > 0) {
       // Parse real API data
-      return parseStandingsTable(data[0])
+      return parseStandingsTable(data[0]);
     }
     // Return empty array if no data - will show appropriate empty state
-    return []
-  }, [data])
+    return [];
+  }, [data]);
 
   // Get current season name from API data
   const currentSeasonName = React.useMemo(() => {
     if (data && data.length > 0 && data[0].title?.rendered) {
-      return data[0].title.rendered
+      return data[0].title.rendered;
     }
-    return 'Current Season'
-  }, [data])
+    return "Current Season";
+  }, [data]);
 
   return (
     <div>
@@ -75,11 +72,11 @@ function StandingsPage() {
           {/* View Toggle */}
           <div className="flex gap-2">
             <button
-              onClick={() => setViewMode('table')}
+              onClick={() => setViewMode("table")}
               className={`touch-target px-4 py-2 rounded-lg font-medium transition-colors ${
-                viewMode === 'table'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+                viewMode === "table"
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
               }`}
               aria-label="Table view"
             >
@@ -98,11 +95,11 @@ function StandingsPage() {
               </svg>
             </button>
             <button
-              onClick={() => setViewMode('cards')}
+              onClick={() => setViewMode("cards")}
               className={`touch-target px-4 py-2 rounded-lg font-medium transition-colors ${
-                viewMode === 'cards'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+                viewMode === "cards"
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
               }`}
               aria-label="Card view"
             >
@@ -128,9 +125,7 @@ function StandingsPage() {
       {isLoading && <StandingsTableSkeleton />}
 
       {/* Error State */}
-      {error && (
-        <APIError error={error as Error} onRetry={() => refetch()} />
-      )}
+      {error && <APIError error={error as Error} onRetry={() => refetch()} />}
 
       {/* Empty State */}
       {!isLoading && !error && standingsData.length === 0 && (
@@ -154,7 +149,7 @@ function StandingsPage() {
           {/* Table/Cards */}
           <LeagueTable
             standings={standingsData}
-            showMobileView={viewMode === 'cards'}
+            showMobileView={viewMode === "cards"}
           />
 
           {/* Legend */}
@@ -192,5 +187,5 @@ function StandingsPage() {
         </div>
       )}
     </div>
-  )
+  );
 }

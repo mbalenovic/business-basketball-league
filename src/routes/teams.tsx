@@ -120,6 +120,7 @@ function TeamsPage() {
                       src={logoUrl}
                       alt={team.title.rendered}
                       className="w-32 h-32 object-contain mb-4"
+                      loading="lazy"
                     />
                   ) : (
                     <div className="w-32 h-32 rounded-lg bg-gray-300 dark:bg-gray-700 flex items-center justify-center mb-4">

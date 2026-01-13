@@ -254,6 +254,7 @@ function MatchCard({ match, teamMap }: MatchCardProps) {
                 src={homeTeam._embedded['wp:featuredmedia'][0].source_url}
                 alt={homeTeam.title.rendered}
                 className="w-10 h-10 object-contain"
+                loading="lazy"
               />
             ) : (
               <div className="w-10 h-10 rounded bg-gray-300 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">
@@ -296,6 +297,7 @@ function MatchCard({ match, teamMap }: MatchCardProps) {
                 src={awayTeam._embedded['wp:featuredmedia'][0].source_url}
                 alt={awayTeam.title.rendered}
                 className="w-10 h-10 object-contain"
+                loading="lazy"
               />
             ) : (
               <div className="w-10 h-10 rounded bg-gray-300 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">

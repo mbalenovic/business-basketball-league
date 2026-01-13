@@ -150,6 +150,7 @@ function TeamPage() {
               src={logoUrl}
               alt={team.title.rendered}
               className="w-32 h-32 md:w-40 md:h-40 rounded-lg object-contain border-4 border-gray-200 dark:border-gray-700 bg-white p-2"
+              loading="lazy"
             />
           ) : (
             <div className="w-32 h-32 md:w-40 md:h-40 rounded-lg bg-gray-300 dark:bg-gray-700 flex items-center justify-center border-4 border-gray-200 dark:border-gray-700">
@@ -228,6 +229,7 @@ function TeamPage() {
                       src={photoUrl}
                       alt={player.title.rendered}
                       className="w-16 h-16 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700"
+                      loading="lazy"
                     />
                   ) : (
                     <div className="w-16 h-16 rounded-full bg-gray-300 dark:bg-gray-700 flex items-center justify-center border-2 border-gray-200 dark:border-gray-700">
