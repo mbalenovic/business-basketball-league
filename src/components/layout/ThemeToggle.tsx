@@ -39,7 +39,9 @@ export function ThemeToggle() {
   }
 
   const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light'
+    // Check the effective theme (considering system preference)
+    const effectivelyDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+    const newTheme = effectivelyDark ? 'light' : 'dark'
     setTheme(newTheme)
     localStorage.setItem('theme', newTheme)
     applyTheme(newTheme)
